@@ -3,27 +3,35 @@ name: Publish Library to GitHub Packages
 on:
   push:
     branches:
-    - master
+      - master
 
 jobs:
-  publish:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
-      - name: Set up JDK 21
-        uses: actions/setup-java@v4
-        with:
-          java-version: '21'
-          distribution: 'temurin'
+    - name: Set up JDK 21
+      uses: actions/setup-java@v2
+      with:
+        java-version: '21'
 
-      - name: Grant execute permission for Gradle
-        run: chmod +x repository-dsl/gradlew
+    - name: Set up Kotlin
+      uses: actions/setup-kotlin@v1
+      with:
+        kotlin-version: '1.9.25'
 
-      - name: Publish to GitHub Packages
-        env:
-          ACTOR: ${{ github.actor }}
-          PACKAGES_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: repository-dsl//gradlew publish
+    - name: Cache Gradle dependencies
+      uses: actions/cache@v2
+      with:
+        path: ~/.gradle/caches
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+
+    - name: Build and Publish to GitHub Packages
+      run: ./gradlew publish --no-daemon
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
