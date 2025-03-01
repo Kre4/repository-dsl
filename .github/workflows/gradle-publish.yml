@@ -26,4 +26,4 @@ jobs:
         env:
           ACTOR: ${{ github.actor }}
           PACKAGES_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: ./repository-dsl//gradlew publish
+        run: repository-dsl//gradlew publish
