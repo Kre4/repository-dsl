@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface TaskAnswerRepository: CrudRepository<TaskAnswer, Int> {
-    fun findByTaskNumberAndStudentId(taskNumber: Int, studentId: Int): TaskAnswer
+    fun findByTaskNumberAndStudentId(taskNumber: Int, studentId: Int): TaskAnswer?
 }

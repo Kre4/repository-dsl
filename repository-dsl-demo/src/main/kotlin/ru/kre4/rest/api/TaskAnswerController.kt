@@ -12,7 +12,5 @@ import org.springframework.web.bind.annotation.RestController
 class TaskAnswerController(private val taskAnswerService: TaskAnswerService) {
 
     @PostMapping
-    fun save(@RequestBody dto: SaveAnswerDto) {
-        taskAnswerService.save(dto)
-    }
+    fun save(@RequestBody dto: SaveAnswerDto) = taskAnswerService.save(dto)
 }

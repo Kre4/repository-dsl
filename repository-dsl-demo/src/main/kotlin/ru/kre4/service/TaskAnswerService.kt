@@ -23,7 +23,19 @@ class TaskAnswerService(private val taskAnswerRepository: TaskAnswerRepository) 
                     savedAnswer = dto.answer,
                     taskNumber = dto.taskNumber
                 )
+
             }
         }
+    }
+
+    fun saveShortButUgly(dto: SaveAnswerDto): TaskAnswer {
+        return taskAnswerRepository.save(
+            taskAnswerRepository.findByTaskNumberAndStudentId(dto.taskNumber, dto.studentId)?.also {
+                it.savedAnswer = dto.answer
+            } ?: TaskAnswer(
+                studentId = dto.studentId,
+                savedAnswer = dto.answer,
+                taskNumber = dto.taskNumber
+            ))
     }
 }
