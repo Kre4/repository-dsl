@@ -22,7 +22,7 @@ repositories {
 }
 
 dependencies {
-    implementation("ru.kre4:repository-dsl:0.0.1")
+    implementation("ru.kre4:repository-dsl:0.0.4")
 
     implementation("org.postgresql:postgresql")
 

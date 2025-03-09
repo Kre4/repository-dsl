@@ -1,6 +1,7 @@
 package ru.kre4.repository.extensions
 
 import org.springframework.data.repository.CrudRepository
+import ru.kre4.repository.extensions.common.EmptyContext
 import java.util.*
 
 @Target(AnnotationTarget.CLASS, AnnotationTarget.VALUE_PARAMETER, AnnotationTarget.FUNCTION, AnnotationTarget.TYPE)
@@ -33,6 +34,11 @@ open class SaveUpdateContext<T, ID : Any, R>(private val repository: R) where R 
         _entity = Optional.ofNullable(repository.init())
     }
 
+    fun bySearchOptional(init: (@SaveUpdateMarker R).() -> Optional<T>) {
+        _entity = repository.init()
+    }
+
+
     fun ifExists(init: (@SaveUpdateMarker T).() -> Unit) {
         ifExistsConsumer = init
     }
@@ -54,8 +60,3 @@ private class SaveUpdateContextEntityCalculator<T, ID : Any, R>(private val repo
         }
     }
 }
-
-/**
- * Fake context for correct DSL usage in Supplier-like functions ( () -> T )
- */
-class EmptyContext

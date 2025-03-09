@@ -4,13 +4,13 @@ import org.example.ru.kre4.entity.TaskAnswer
 import org.example.ru.kre4.repository.TaskAnswerRepository
 import org.example.ru.kre4.rest.dto.SaveAnswerDto
 import org.springframework.stereotype.Service
-import ru.kre4.repository.extensions.saveOrUpdate
+import ru.kre4.repository.extensions.saveUpdate
 
 @Service
 class TaskAnswerService(private val taskAnswerRepository: TaskAnswerRepository) {
 
     fun save(dto: SaveAnswerDto): TaskAnswer {
-        return taskAnswerRepository.saveOrUpdate {
+        return taskAnswerRepository.saveUpdate {
             bySearch {
                 findByTaskNumberAndStudentId(dto.taskNumber, dto.studentId)
             }
@@ -23,7 +23,6 @@ class TaskAnswerService(private val taskAnswerRepository: TaskAnswerRepository) 
                     savedAnswer = dto.answer,
                     taskNumber = dto.taskNumber
                 )
-
             }
         }
     }
